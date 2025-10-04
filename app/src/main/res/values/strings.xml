@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">CityPulse</string>
+    <string name="welcome_text">Welcome to Citypulse</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="register_user_button">Register User</string>
+    <string name="register_title">Register New User</string>
+    <string name="name_hint">Full Name</string>
+    <string name="email_hint">Email(This will be the Username)</string>
+    <string name="city_hint">Home City</string>
+    <string name="register_button">Register</string>
+    <string name="back_to_login">Back to Login</string>
+    <string name="home_title">Home</string>
+    <string name="search_hint">Search for any city...</string>
+    <string name="featured_cities">Featured Cities</string>
+    <string name="available_cities">Available Cities</string>
+    <string name="trending_cities">Trending Cities</string>
+    <string name="dashboard_nav">Dashboard</string>
+    <string name="compare_nav">Compare</string>
+    <string name="profile_nav">Profile</string>
+    <string name="settings_nav">Settings</string>
+    <string name="logout_button">Logout</string>
+    <string name="back_to_home">Back to Home</string>
+</resources>

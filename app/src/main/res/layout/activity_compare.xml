@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#f8f9fa">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Compare Cities"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#2c3e50"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select 2 cities to compare their health metrics"
+            android:textSize="14sp"
+            android:textColor="#7f8c8d"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp" />
+
+        <!-- City Selection Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select First City"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#2c3e50"
+                    android:layout_marginBottom="8dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerCity1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:spinnerMode="dropdown"
+                    android:layout_marginBottom="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Second City"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#2c3e50"
+                    android:layout_marginBottom="8dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerCity2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:spinnerMode="dropdown"
+                    android:layout_marginBottom="16dp" />
+
+                <Button
+                    android:id="@+id/btnCompare"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Compare Selected Cities"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:backgroundTint="#001f4d" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Comparison Results Layout (Initially Hidden) -->
+        <LinearLayout
+            android:id="@+id/layoutComparison"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Winner Announcement -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="6dp"
+                android:backgroundTint="#fef9e7">
+
+                <TextView
+                    android:id="@+id/tvWinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Winner will be shown here"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#27ae60"
+                    android:gravity="center"
+                    android:padding="20dp" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- City Names Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/tvCity1Name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="City 1"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#3498db"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="VS"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#7f8c8d"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/tvCity2Name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="City 2"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#e74c3c"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <!-- Health Index Comparison -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Health Index"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#2c3e50"
+                        android:layout_marginBottom="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvCity1Health"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0.0"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#7f8c8d"
+                            android:gravity="center" />
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#ecf0f1" />
+
+                        <TextView
+                            android:id="@+id/tvCity2Health"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0.0"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#7f8c8d"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Air Quality Comparison -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Air Quality Index"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#2c3e50"
+                        android:layout_marginBottom="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvCity1AQI"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#7f8c8d"
+                            android:gravity="center" />
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#ecf0f1" />
+
+                        <TextView
+                            android:id="@+id/tvCity2AQI"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#7f8c8d"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Green Cover Comparison -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Green Cover"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#2c3e50"
+                        android:layout_marginBottom="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvCity1Green"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0.0%"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#7f8c8d"
+                            android:gravity="center" />
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#ecf0f1" />
+
+                        <TextView
+                            android:id="@+id/tvCity2Green"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0.0%"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#7f8c8d"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Heat Stress Comparison -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Heat Stress"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#2c3e50"
+                        android:layout_marginBottom="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvCity1Heat"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0.0"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#7f8c8d"
+                            android:gravity="center" />
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#ecf0f1" />
+
+                        <TextView
+                            android:id="@+id/tvCity2Heat"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0.0"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#7f8c8d"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Healthcare Access Comparison -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Healthcare Facilities"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#2c3e50"
+                        android:layout_marginBottom="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvCity1Healthcare"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#7f8c8d"
+                            android:gravity="center" />
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#ecf0f1" />
+
+                        <TextView
+                            android:id="@+id/tvCity2Healthcare"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#7f8c8d"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnBackHome"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Back to Home"
+            android:textSize="16sp"
+            android:backgroundTint="#001f4d"
+            style="@style/Widget.MaterialComponents.Button" />
+
+    </LinearLayout>
+</ScrollView>
