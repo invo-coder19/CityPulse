@@ -31,12 +31,21 @@ public class MainActivity extends AppCompatActivity {
         // Initialize SharedPreferences for storing user data
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
+        // Auto-login if session already exists
+        String existingUser = sharedPreferences.getString("current_user", "");
+        if (!existingUser.isEmpty()) {
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         // Login button click listener
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = etUsername.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
+                String username = etUsername.getText() != null ? etUsername.getText().toString().trim().toLowerCase() : "";
+                String password = etPassword.getText() != null ? etPassword.getText().toString().trim() : "";
 
                 if (username.isEmpty() || password.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
@@ -47,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 String storedPassword = sharedPreferences.getString(username + "_password", "");
 
                 if (storedPassword.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "User not registered! Please click on 'Register User' button", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "User not registered! Please register first.", Toast.LENGTH_LONG).show();
                 } else if (storedPassword.equals(password)) {
                     // Login successful
                     Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();

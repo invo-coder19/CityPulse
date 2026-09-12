@@ -121,4 +121,13 @@ public class City implements Serializable {
         else if (healthIndex >= 20) return "Poor";
         else return "Critical";
     }
+
+    // Helper method to get health index color
+    public String getHealthColor() {
+        if (healthIndex >= 80) return "#27ae60";
+        else if (healthIndex >= 60) return "#2ecc71";
+        else if (healthIndex >= 40) return "#f39c12";
+        else if (healthIndex >= 20) return "#e67e22";
+        else return "#e74c3c";
+    }
 }

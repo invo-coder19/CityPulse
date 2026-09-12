@@ -36,14 +36,24 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = etRegName.getText().toString().trim();
-                String email = etRegEmail.getText().toString().trim();
-                String password = etRegPassword.getText().toString().trim();
-                String city = etRegCity.getText().toString().trim();
+                String name = etRegName.getText() != null ? etRegName.getText().toString().trim() : "";
+                String email = etRegEmail.getText() != null ? etRegEmail.getText().toString().trim().toLowerCase() : "";
+                String password = etRegPassword.getText() != null ? etRegPassword.getText().toString().trim() : "";
+                String city = etRegCity.getText() != null ? etRegCity.getText().toString().trim() : "";
 
                 // Validate fields
                 if (name.isEmpty() || email.isEmpty() || password.isEmpty() || city.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(RegisterActivity.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (password.length() < 4) {
+                    Toast.makeText(RegisterActivity.this, "Password must be at least 4 characters", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -63,15 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 Toast.makeText(RegisterActivity.this, "Registration successful! Please login now.", Toast.LENGTH_LONG).show();
 
-                // Clear fields
-                etRegName.setText("");
-                etRegEmail.setText("");
-                etRegPassword.setText("");
-                etRegCity.setText("");
-
                 // Go back to login screen
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
@@ -80,8 +82,6 @@ public class RegisterActivity extends AppCompatActivity {
         btnBackToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                startActivity(intent);
                 finish();
             }
         });

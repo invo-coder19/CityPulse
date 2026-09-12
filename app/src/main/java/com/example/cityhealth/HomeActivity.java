@@ -49,8 +49,14 @@ public class HomeActivity extends AppCompatActivity {
 
         // Get current user and display welcome message
         String currentUser = sharedPreferences.getString("current_user", "");
+        if (currentUser.isEmpty()) {
+            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         String userName = sharedPreferences.getString(currentUser + "_name", "User");
-        tvWelcome.setText("Welcome " + userName + "!");
+        tvWelcome.setText("Welcome, " + userName + "!");
 
         // Load city data from CSV
         loadCityData();
@@ -82,7 +88,27 @@ public class HomeActivity extends AppCompatActivity {
         btnDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeActivity.this, "Please search and select a city first", Toast.LENGTH_SHORT).show();
+                String userCityName = sharedPreferences.getString(currentUser + "_city", "");
+                City targetCity = null;
+                if (!userCityName.isEmpty() && cityList != null) {
+                    for (City c : cityList) {
+                        if (c.getCityName().equalsIgnoreCase(userCityName.trim())) {
+                            targetCity = c;
+                            break;
+                        }
+                    }
+                }
+                if (targetCity == null && cityList != null && !cityList.isEmpty()) {
+                    targetCity = cityList.get(0);
+                }
+
+                if (targetCity != null) {
+                    Intent intent = new Intent(HomeActivity.this, DashboardActivity.class);
+                    intent.putExtra("CITY_DATA", targetCity);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(HomeActivity.this, "Please select a city from the list below", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -118,31 +144,32 @@ public class HomeActivity extends AppCompatActivity {
             cityList = csvReader.readCitiesFromCSV("cities_data.csv");
             if (cityList.isEmpty()) {
                 cityList = csvReader.getSampleCities();
-                Toast.makeText(this, "Using sample data. Add cities_data.csv to assets folder", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "City Data Loaded", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             cityList = csvReader.getSampleCities();
-            Toast.makeText(this, "CSV not found. Using sample data", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void setupRecyclerViews() {
+        if (cityList == null || cityList.isEmpty()) {
+            return;
+        }
+
         // Search Results RecyclerView
         rvSearchResults.setLayoutManager(new LinearLayoutManager(this));
-        searchAdapter = new CityAdapter(this, cityList);
+        searchAdapter = new CityAdapter(this, cityList, false);
         rvSearchResults.setAdapter(searchAdapter);
         rvSearchResults.setVisibility(View.GONE);
 
         // Featured Cities RecyclerView (Horizontal)
         rvFeaturedCities.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        featuredAdapter = new CityAdapter(this, cityList.subList(0, Math.min(5, cityList.size())));
+        List<City> featuredSubList = cityList.subList(0, Math.min(5, cityList.size()));
+        featuredAdapter = new CityAdapter(this, new ArrayList<>(featuredSubList), true);
         rvFeaturedCities.setAdapter(featuredAdapter);
 
         // Available Cities RecyclerView (Vertical)
         rvAvailableCities.setLayoutManager(new LinearLayoutManager(this));
-        availableAdapter = new CityAdapter(this, cityList);
+        availableAdapter = new CityAdapter(this, cityList, false);
         rvAvailableCities.setAdapter(availableAdapter);
     }
 

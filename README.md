@@ -7,8 +7,6 @@ CityPulse is a native Android application that monitors and visualizes key urban
 [![Android](https://img.shields.io/badge/Platform-Android-3DDC84?logo=android&logoColor=white)](https://developer.android.com)
 [![Java](https://img.shields.io/badge/Language-Java-ED8B00?logo=openjdk&logoColor=white)](https://www.java.com)
 [![API](https://img.shields.io/badge/Min%20SDK-24%20(Android%207.0)-blue)](https://developer.android.com/about/versions/nougat)
-[![Build](https://img.shields.io/badge/Build-Gradle%208.2.1-02303A?logo=gradle)](https://gradle.org)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 ---
 
@@ -20,9 +18,6 @@ CityPulse is a native Android application that monitors and visualizes key urban
 | 🏠 **Home Dashboard** | City list with searchable RecyclerView |
 | 📊 **City Dashboard** | Detailed health metrics per city |
 | ⚖️ **City Comparison** | Side-by-side comparison of two cities |
-| 👤 **Profile** | User profile management |
-| ⚙️ **Settings** | App preferences |
-| 📄 **CSV Integration** | Reads `cities_data.csv` from assets at runtime |
 
 ---
 
@@ -192,14 +187,6 @@ Contributions are welcome! Here's how to get started:
 4. Push to the branch: `git push origin feature/your-feature-name`
 5. Open a Pull Request
 
----
+## 🚀 NASA Space Apps Challenge
+This project was developed for the **NASA Space Apps Challenge**, harnessing environmental indicators and Earth observation data proxies (TEMPO, GRACE, and SMAP satellite data) to monitor and visualize city health.
 
-## 📄 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
----
-
-<div align="center">
-  Made with ❤️ by <a href="https://github.com/invo-coder19">invo-coder19</a>
-</div>

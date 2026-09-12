@@ -37,8 +37,6 @@ public class ProfileActivity extends AppCompatActivity {
         btnBackHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
@@ -46,11 +44,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void loadUserProfile() {
         String currentUser = sharedPreferences.getString("current_user", "");
-        String userName = sharedPreferences.getString(currentUser + "_name", "N/A");
-        String userCity = sharedPreferences.getString(currentUser + "_city", "N/A");
+        String userName = sharedPreferences.getString(currentUser + "_name", "User");
+        String userCity = sharedPreferences.getString(currentUser + "_city", "Not specified");
 
         tvUserName.setText("Name: " + userName);
-        tvUserEmail.setText("Email: " + currentUser);
+        tvUserEmail.setText("Email: " + (currentUser.isEmpty() ? "Not logged in" : currentUser));
         tvUserCity.setText("Home City: " + userCity);
     }
 }
