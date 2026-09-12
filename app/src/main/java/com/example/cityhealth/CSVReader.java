@@ -24,14 +24,17 @@ public class CSVReader {
     public List<City> readCitiesFromCSV(String fileName) {
         List<City> cities = new ArrayList<>();
 
-        try {
-            InputStream inputStream = context.getAssets().open(fileName);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try (InputStream inputStream = context.getAssets().open(fileName);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
 
             String line;
             boolean firstLine = true;
 
             while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+
                 // Skip header line
                 if (firstLine) {
                     firstLine = false;
@@ -62,9 +65,6 @@ public class CSVReader {
                     }
                 }
             }
-
-            reader.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }

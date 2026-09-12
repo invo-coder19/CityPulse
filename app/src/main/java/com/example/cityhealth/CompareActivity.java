@@ -25,6 +25,7 @@ public class CompareActivity extends AppCompatActivity {
     private TextView tvCity1Name, tvCity2Name, tvWinner;
     private TextView tvCity1Health, tvCity2Health, tvCity1AQI, tvCity2AQI;
     private TextView tvCity1Green, tvCity2Green, tvCity1Heat, tvCity2Heat;
+    private TextView tvCity1Water, tvCity2Water;
     private TextView tvCity1Healthcare, tvCity2Healthcare;
 
     private List<City> cityList;
@@ -57,6 +58,8 @@ public class CompareActivity extends AppCompatActivity {
         tvCity2Green = findViewById(R.id.tvCity2Green);
         tvCity1Heat = findViewById(R.id.tvCity1Heat);
         tvCity2Heat = findViewById(R.id.tvCity2Heat);
+        tvCity1Water = findViewById(R.id.tvCity1Water);
+        tvCity2Water = findViewById(R.id.tvCity2Water);
         tvCity1Healthcare = findViewById(R.id.tvCity1Healthcare);
         tvCity2Healthcare = findViewById(R.id.tvCity2Healthcare);
 
@@ -68,6 +71,21 @@ public class CompareActivity extends AppCompatActivity {
         // Setup spinners
         setupSpinners();
 
+        // Check for preselected city from intent
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("PRESELECTED_CITY")) {
+            String preselectedName = intent.getStringExtra("PRESELECTED_CITY");
+            if (preselectedName != null && cityList != null) {
+                for (int i = 0; i < cityList.size(); i++) {
+                    if (cityList.get(i).getCityName().equalsIgnoreCase(preselectedName.trim())) {
+                        spinnerCity1.setSelection(i + 1);
+                        selectedCity1 = cityList.get(i);
+                        break;
+                    }
+                }
+            }
+        }
+
         // Initially hide comparison layout
         layoutComparison.setVisibility(View.GONE);
 
@@ -77,17 +95,13 @@ public class CompareActivity extends AppCompatActivity {
         btnCompare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "Compare button clicked!");
-                Toast.makeText(CompareActivity.this, "Button clicked!", Toast.LENGTH_SHORT).show();
-
                 if (selectedCity1 == null || selectedCity2 == null) {
                     Toast.makeText(CompareActivity.this, "Please select 2 cities to compare", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "City1: " + selectedCity1 + ", City2: " + selectedCity2);
                     return;
                 }
 
-                if (selectedCity1.getCityName().equals(selectedCity2.getCityName())) {
-                    Toast.makeText(CompareActivity.this, "Please select different cities", Toast.LENGTH_LONG).show();
+                if (selectedCity1.getCityName().equalsIgnoreCase(selectedCity2.getCityName())) {
+                    Toast.makeText(CompareActivity.this, "Please select two different cities", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -100,9 +114,6 @@ public class CompareActivity extends AppCompatActivity {
         btnBackHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "Back button clicked");
-                Intent intent = new Intent(CompareActivity.this, HomeActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
@@ -211,6 +222,11 @@ public class CompareActivity extends AppCompatActivity {
         tvCity2Heat.setText(String.format("%.1f°C", selectedCity2.getUrbanHeatIsland()));
         highlightBetter(tvCity1Heat, tvCity2Heat, selectedCity1.getUrbanHeatIsland(), selectedCity2.getUrbanHeatIsland(), false);
 
+        // Compare Water & Flood Risk (lower is better)
+        tvCity1Water.setText(String.format("%.1f%%", selectedCity1.getWaterFloodRisk()));
+        tvCity2Water.setText(String.format("%.1f%%", selectedCity2.getWaterFloodRisk()));
+        highlightBetter(tvCity1Water, tvCity2Water, selectedCity1.getWaterFloodRisk(), selectedCity2.getWaterFloodRisk(), false);
+
         // Compare Healthcare
         tvCity1Healthcare.setText(String.valueOf(selectedCity1.getHealthcareFacilities()));
         tvCity2Healthcare.setText(String.valueOf(selectedCity2.getHealthcareFacilities()));
@@ -266,6 +282,10 @@ public class CompareActivity extends AppCompatActivity {
         // Heat (lower is better)
         if (selectedCity1.getUrbanHeatIsland() < selectedCity2.getUrbanHeatIsland()) city1Score++;
         else if (selectedCity2.getUrbanHeatIsland() < selectedCity1.getUrbanHeatIsland()) city2Score++;
+
+        // Water Risk (lower is better)
+        if (selectedCity1.getWaterFloodRisk() < selectedCity2.getWaterFloodRisk()) city1Score++;
+        else if (selectedCity2.getWaterFloodRisk() < selectedCity1.getWaterFloodRisk()) city2Score++;
 
         // Healthcare
         if (selectedCity1.getHealthcareFacilities() > selectedCity2.getHealthcareFacilities()) city1Score++;

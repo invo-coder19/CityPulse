@@ -17,17 +17,31 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
     private Context context;
     private List<City> cityList;
     private List<City> cityListFull; // For search functionality
+    private boolean isHorizontal;
 
     public CityAdapter(Context context, List<City> cityList) {
+        this(context, cityList, false);
+    }
+
+    public CityAdapter(Context context, List<City> cityList, boolean isHorizontal) {
         this.context = context;
-        this.cityList = cityList;
+        this.cityList = new ArrayList<>(cityList);
         this.cityListFull = new ArrayList<>(cityList);
+        this.isHorizontal = isHorizontal;
     }
 
     @NonNull
     @Override
     public CityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_city, parent, false);
+        if (isHorizontal) {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null) {
+                int widthPx = (int) (260 * context.getResources().getDisplayMetrics().density);
+                lp.width = widthPx;
+                view.setLayoutParams(lp);
+            }
+        }
         return new CityViewHolder(view);
     }
 
@@ -38,6 +52,10 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
         holder.tvCityName.setText(city.getCityName());
         holder.tvCityState.setText(city.getState());
         holder.tvHealthScore.setText("Health Score: " + String.format("%.1f", city.getHealthIndex()));
+
+        try {
+            holder.tvHealthScore.setTextColor(android.graphics.Color.parseColor(city.getHealthColor()));
+        } catch (Exception ignored) {}
 
         // Click listener to open dashboard
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +80,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
         if (searchText.isEmpty()) {
             cityList.addAll(cityListFull);
         } else {
-            searchText = searchText.toLowerCase();
+            searchText = searchText.toLowerCase().trim();
             for (City city : cityListFull) {
                 if (city.getCityName().toLowerCase().contains(searchText) ||
                         city.getState().toLowerCase().contains(searchText)) {

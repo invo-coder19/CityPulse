@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">CityPulse</string>
-    <string name="welcome_text">Welcome to Citypulse</string>
+    <string name="welcome_text">Welcome to CityPulse</string>
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
     <string name="login_button">Login</string>
     <string name="register_user_button">Register User</string>
     <string name="register_title">Register New User</string>
     <string name="name_hint">Full Name</string>
-    <string name="email_hint">Email(This will be the Username)</string>
+    <string name="email_hint">Email (This will be your username)</string>
     <string name="city_hint">Home City</string>
     <string name="register_button">Register</string>
     <string name="back_to_login">Back to Login</string>

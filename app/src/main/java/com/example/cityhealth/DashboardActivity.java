@@ -34,17 +34,24 @@ public class DashboardActivity extends AppCompatActivity {
 
         // Get city data from intent
         Intent intent = getIntent();
-        if (intent.hasExtra("CITY_DATA")) {
-            selectedCity = (City) intent.getSerializableExtra("CITY_DATA");
+        if (intent != null && intent.hasExtra("CITY_DATA")) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                selectedCity = intent.getSerializableExtra("CITY_DATA", City.class);
+            } else {
+                selectedCity = (City) intent.getSerializableExtra("CITY_DATA");
+            }
+        }
+
+        if (selectedCity != null) {
             displayCityData();
+        } else {
+            tvCityNameDash.setText("City data unavailable");
         }
 
         // Back to home button
         btnBackHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DashboardActivity.this, HomeActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
@@ -76,15 +83,6 @@ public class DashboardActivity extends AppCompatActivity {
             // Healthcare Facilities
             tvHealthcare.setText(String.valueOf(selectedCity.getHealthcareFacilities()) + " facilities");
         }
-        btnBackHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DashboardActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
     }
 
     private int getHealthColor(double healthIndex) {
